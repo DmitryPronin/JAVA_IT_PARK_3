@@ -11,10 +11,10 @@ public class MainReadArrayFromConsole {
    for (int i = 0; i<array.length; i++){
        array[i] = scanner.nextInt();
     }
-    int min = a[0];
-    int max = a[0];
+    int min = array[0];
+    int max = array[0];
 
-    for (i = 1; i < array.length; i++){
+    for (int i = 1; i < array.length; i++){
         if (min>array[i]){
                 min = array[i];
         }
@@ -25,5 +25,7 @@ public class MainReadArrayFromConsole {
     int temp = min;
     min = max;
     max = temp;
+    System.out.println("min =" + min);
+    System.out.println("");
     }
 }
