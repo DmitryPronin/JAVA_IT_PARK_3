@@ -12,20 +12,26 @@ public class MainReadArrayFromConsole {
        array[i] = scanner.nextInt();
     }
     int min = array[0];
+        int minI = 0;
     int max = array[0];
+    int maxI = 0;
 
     for (int i = 1; i < array.length; i++){
         if (min>array[i]){
                 min = array[i];
+                minI = i;
         }
         if (max<array[i]){
                 max = array[i];
+                maxI = i;
         }
     }
-    int temp = min;
-    min = max;
-    max = temp;
-    System.out.println("min =" + min);
-    System.out.println("");
-    }
-}
+
+    int temp = array[minI];
+        array[maxI] = array[minI];
+        array[minI] = temp;
+
+        for (int i = 0; i < array.length ; i++) {
+            System.out.print(array[i] + " ");
+        }
+}}
