@@ -3,8 +3,7 @@ class Program{
     public static void main(String[] args) {
         System.out.print("Vvedite summu dlya snyatiya sredst:");
         Scanner scanner = new Scanner(System.in);
-        int summa;
-        summa = scanner.nextInt();
+        int summa = scanner.nextInt();
         int x5000 = summa / 5000;
         summa = summa % 5000;
         int x1000 = summa / 1000;
@@ -23,15 +22,15 @@ class Program{
         summa = summa % 2;
         int x1 = summa;
 
-        System.out.println("5000 rubles kupur = " + x5000);
-        System.out.println("1000 rubles kupur = " + x1000);
-        System.out.println("500 rubles kupur = " + x500);
-        System.out.println("100 rubles kupur = " + x100);
-        System.out.println("50 rubles kupur = " + x50);
-        System.out.println("10 rubles kupur = " + x10);
-        System.out.println("5 rubles monet = " + x5);
-        System.out.println("2 rubles monet = " + x2);
-        System.out.println("1 rubles monet = " + x1);
+        System.out.println("5000 rubles, banknotes = " + x5000);
+        System.out.println("1000 rubles, banknotes = " + x1000);
+        System.out.println("500 rubles, banknotes = " + x500);
+        System.out.println("100 rubles, banknotes = " + x100);
+        System.out.println("50 rubles, banknotes = " + x50);
+        System.out.println("10 rubles, banknotes = " + x10);
+        System.out.println("5 rubles, coins = " + x5);
+        System.out.println("2 rubles coins = " + x2);
+        System.out.println("1 rubles coins = " + x1);
 
 
     }
