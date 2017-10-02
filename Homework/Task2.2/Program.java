@@ -36,7 +36,7 @@ class Program{
     }
         int rez = sum1 - sum2;
         System.out.println("System don't create this :" + rez);
-        
+
 
 }
 }
