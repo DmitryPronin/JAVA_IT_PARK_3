@@ -9,7 +9,6 @@
             <column name="id" sql-type="integer"/>
             <generator class="identity"/>
         </id>
-
         <property name="dateTime"/>
         <property name="users_id"/>
     </class>

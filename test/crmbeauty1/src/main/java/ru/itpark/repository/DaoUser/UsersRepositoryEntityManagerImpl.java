@@ -19,6 +19,7 @@ package ru.itpark.repository.DaoUser;
             return entityManager
                         .createQuery("from User users order by users.id", User.class)
                         .getResultList();
+
           }
              @Override
              public void save(User model) {
@@ -39,10 +40,8 @@ package ru.itpark.repository.DaoUser;
                  entityManager.getTransaction().begin();
                  Query query = entityManager.createQuery("DELETE FROM User users WHERE users.id= :id_delete");
                  int deletedCount = query.setParameter("id_delete",id).executeUpdate();
-                 System.out.println(deletedCount);
                  entityManager.getTransaction().commit();
-                // entityManager.createQuery("delete users where id=:id_delete");
-//                 entityManager.setProperty("id_delete", id);
+
              }
 
              @Override

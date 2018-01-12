@@ -16,6 +16,7 @@
     <%
         ArrayList<Orders> orders = (ArrayList<Orders>) request.getAttribute("orders");
         for (Orders order : orders) {
+
     %>
     <tr>
         <td><%=order.getId()%></>

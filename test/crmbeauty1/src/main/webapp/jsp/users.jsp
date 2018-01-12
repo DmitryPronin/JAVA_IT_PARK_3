@@ -6,7 +6,7 @@
     <title>Пользователи</title>
 </head>
 <body>
-<h1>${hello}</h1>
+
 <table>
     <tr>
         <th>Id</th>

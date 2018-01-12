@@ -27,15 +27,20 @@ public class UsersJspServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //req.setAttribute("hello", "Привет, Марсель!");
+        if (req.getParameter("id_search")!=null){
 
-        req.setAttribute("users", usersRepository.findAll());
-        req.getRequestDispatcher("jsp/users_with_tags.jsp").forward(req, resp);
+
+        }else {
+            req.setAttribute("users", usersRepository.findAll());
+            req.getRequestDispatcher("jsp/users_with_tags.jsp").forward(req, resp);
+        }
+
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        System.out.println(req.getParameter("id_delete"));
         if (req.getParameter("name_add")!=null && req.getParameter("age_add")!=null){
             String name = req.getParameter("name_add");
             int age = Integer.parseInt(req.getParameter("age_add"));

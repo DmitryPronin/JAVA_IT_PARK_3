@@ -43,6 +43,8 @@ public class OrderRepositoryEntityManagerImpl implements OrderRepository {
 
     @Override
     public List<Orders> findAll() {
-        return null;
+        return entityManager
+                .createQuery("from Orders orders order by orders.id", Orders.class)
+                .getResultList();
     }
 }
