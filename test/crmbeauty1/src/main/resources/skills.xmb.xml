@@ -4,16 +4,15 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="ru.itpark.model.User" schema="public" table="users">
+    <class name="ru.itpark.model.Skill" schema="public" table="skills">
         <id name="id" type="java.lang.Integer">
             <column name="id" sql-type="integer"/>
             <generator class="identity"/>
         </id>
-        <property name="name" />
-        <property name="surname"/>
-        <property name="mobilePhone"/>
-        <property name="age"/>
-        <property name="skills"/>
+        <property name="nameSkill" />
+        <property name="price"/>
+        <property name="executionTime"/>
+        <property name="user_id"/>
     </class>
 
 </hibernate-mapping>

@@ -22,7 +22,11 @@ public class OrderRepositoryEntityManagerImpl implements OrderRepository {
 
     @Override
     public Orders find(int id) {
-        return null;
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("FROM Orders orders WHERE orders.id= :id_find");
+        query.setParameter("id_find",id).executeUpdate();
+        entityManager.getTransaction().commit();
+        return (Orders)entityManager;
     }
 
     @Override
@@ -36,8 +40,7 @@ public class OrderRepositoryEntityManagerImpl implements OrderRepository {
     public void delete(int id) {
         entityManager.getTransaction().begin();
         Query query = entityManager.createQuery("DELETE FROM Orders orders WHERE orders.id= :id_delete");
-        int deletedCount = query.setParameter("id_delete",id).executeUpdate();
-        System.out.println(deletedCount);
+        query.setParameter("id_delete",id).executeUpdate();
         entityManager.getTransaction().commit();
     }
 

@@ -46,7 +46,12 @@ package ru.itpark.repository.DaoUser;
 
              @Override
              public User find(int id) {
-                 return User.builder().build();
+                 User user = entityManager
+                         .createQuery("FROM User users WHERE users.id= :id_find",User.class)
+                         .setParameter("id_find", id)
+                         .getSingleResult();
+                 //System.out.println(user);
+                 return user;
 
 
              }

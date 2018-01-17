@@ -1,12 +1,12 @@
 package ru.itpark.model;
 
+
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "skills")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,13 +15,16 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 
-public class Orders {
+public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime dateTime;
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private User user;
+    private String nameSkill;
+    private double price;
+    private double executionTime;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
     }
 

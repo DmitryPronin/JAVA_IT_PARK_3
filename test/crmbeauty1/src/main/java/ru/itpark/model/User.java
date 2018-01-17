@@ -2,6 +2,9 @@ package ru.itpark.model;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -21,4 +24,12 @@ public class User {
     private String surname;
     private String mobilePhone;
     private int age;
+
+    @OneToMany(mappedBy = "user")
+    private List<Orders> orders;
+
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Skill> skills;
+
 }

@@ -9,8 +9,10 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">qwerty</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+        <mapping resource="skills.xmb.xml"/>
         <mapping resource="order.xmb.xml"/>
         <mapping resource="user.xmb.xml"/>
+
 
 
 

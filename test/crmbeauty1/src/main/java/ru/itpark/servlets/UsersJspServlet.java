@@ -26,13 +26,18 @@ public class UsersJspServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //req.setAttribute("hello", "Привет, Марсель!");
-        if (req.getParameter("id_search")!=null){
 
-
-        }else {
+        if (req.getParameter("id_search")==null){
             req.setAttribute("users", usersRepository.findAll());
             req.getRequestDispatcher("jsp/users_with_tags.jsp").forward(req, resp);
+        }else {
+            int id = Integer.parseInt(req.getParameter("id_search"));
+            req.setAttribute("users",usersRepository.find(id));
+            req.getRequestDispatcher("jsp/search_result.jsp").forward(req, resp);
+            //resp.sendRedirect("jsp/search_result.jsp");
+
+
+
         }
 
 
@@ -41,6 +46,7 @@ public class UsersJspServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        //Добавление пользователя
         if (req.getParameter("name_add")!=null && req.getParameter("age_add")!=null){
             String name = req.getParameter("name_add");
             int age = Integer.parseInt(req.getParameter("age_add"));
@@ -51,7 +57,7 @@ public class UsersJspServlet extends HttpServlet {
             usersRepository.save(user);
             resp.sendRedirect("/users_as_jsp");
         }
-
+        //Редактирование пользователя
         if (req.getParameter("name_update")!=null && req.getParameter("age_update")!=null && req.getParameter("id_update")!=null){
             String name = req.getParameter("name_update");
             int age = Integer.parseInt(req.getParameter("age_update"));
@@ -64,7 +70,7 @@ public class UsersJspServlet extends HttpServlet {
             usersRepository.update(user);
             resp.sendRedirect("/users_as_jsp");
         }
-
+        //Удаление пользователя
         if (req.getParameter("id_delete")!=null){
             int id = Integer.parseInt(req.getParameter("id_delete"));
             usersRepository.delete(id);
