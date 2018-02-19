@@ -24,7 +24,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="registration_page.ftl">Registration</a> </li>
+                <li><a href="/registration">Registration</a> </li>
                 <li><a href="#">About</a> </li>
                 <li><a href="#">Examples</a> </li>
                 <li><a href="#">F.A.Q.</a> </li>

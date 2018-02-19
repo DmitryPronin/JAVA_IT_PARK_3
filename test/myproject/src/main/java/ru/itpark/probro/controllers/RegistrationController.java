@@ -39,10 +39,10 @@ public class RegistrationController {
 
     }
 
-//    @GetMapping("/")
-//    public String index(){
-//        return "login";
-//    }
+    @GetMapping("/")
+    public String index(){
+        return "login";
+    }
 
 
 

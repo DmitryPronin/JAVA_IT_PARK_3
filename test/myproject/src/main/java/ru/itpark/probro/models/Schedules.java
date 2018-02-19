@@ -24,11 +24,14 @@ public class Schedules {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "master_id")
     private User master;
 
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+
+
     private String commit;
 }

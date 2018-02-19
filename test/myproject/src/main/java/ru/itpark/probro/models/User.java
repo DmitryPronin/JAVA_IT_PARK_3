@@ -1,7 +1,6 @@
 package ru.itpark.probro.models;
 
 import lombok.*;
-import ru.itpark.probro.models.enums.Gender;
 import ru.itpark.probro.models.enums.Role;
 import ru.itpark.probro.models.enums.State;
 
@@ -46,11 +45,13 @@ public class User {
 
     private String avatarUrl;
 
-    @OneToMany
-    List<Schedules> schedules;
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Schedules> schedules;
 
 
  //   private List<Skill> skills;
+
+
 
 
 

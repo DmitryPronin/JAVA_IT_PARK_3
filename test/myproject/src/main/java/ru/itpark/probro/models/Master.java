@@ -1,6 +1,6 @@
 package ru.itpark.probro.models;
 
-import ru.itpark.probro.models.enums.Gender;
+
 import ru.itpark.probro.models.enums.Role;
 import ru.itpark.probro.models.enums.State;
 
@@ -20,9 +20,6 @@ public class Master {
     private LocalDateTime birthDate;
     private LocalDateTime registrationTime;
     private String confirmedCode;
-
-    @Enumerated(value = EnumType.STRING)
-    private Gender sex;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;

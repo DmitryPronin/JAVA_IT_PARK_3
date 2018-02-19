@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itpark.probro.models.FileInfo;
+import ru.itpark.probro.models.User;
 import ru.itpark.probro.repositories.FilesInfoRepository;
 import ru.itpark.probro.repositories.UserRepository;
 
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
@@ -29,37 +31,43 @@ public class FilesServiceImpl implements FilesService {
     @Autowired
     private UserRepository usersRepository;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Value(value = "${storage.path}")
     private String storagePath;
+
+    @Value(value = "${web.path}")
+    private String webPath;
 
     @Override
     @SneakyThrows
     public String save(Authentication authentication, MultipartFile multipartFile) {
-        // создаем объект с иноформацией о файле
-        // которая будет хранится в бд
-        FileInfo fileInfo = FileInfo.builder()
+        User user = authenticationService.getUserByAuthentication(authentication);
+        FileInfo fileInfo = filesInfoRepository.findOneByUserId(user.getId());
+        if (fileInfo!=null){
+        fileInfo.setOriginalName(multipartFile.getOriginalFilename());
+        fileInfo.setSize(multipartFile.getSize());
+        fileInfo.setType(multipartFile.getContentType());
+        }else {
+                fileInfo = FileInfo.builder()
                 .originalName(multipartFile.getOriginalFilename())
                 .size(multipartFile.getSize())
-                .owner(usersRepository.findByEmail(authentication.getName()).get())
+                .user(user)
                 .type(multipartFile.getContentType())
                 .build();
-        // генерируем случайное имя файла чтобы не было коллизий
+        }
         String newName = UUID.randomUUID().toString().replace("-","");
-        // забираем расширение файла
         String extension = multipartFile.getOriginalFilename()
                 .substring(multipartFile.getOriginalFilename().lastIndexOf("."),
                         multipartFile.getOriginalFilename().length());
-        // задаем новое имя с расширением
         fileInfo.setStorageName(newName + extension);
-        // формируем url к файлу
         fileInfo.setUrl(storagePath + "\\" + fileInfo.getStorageName());
-        // копируем его на диск
+        fileInfo.setWeburl(webPath + "/" + fileInfo.getStorageName());
         Files.copy(multipartFile.getInputStream(),
                 Paths.get(storagePath, fileInfo.getStorageName()));
-        // сохраняем информацию в БД
         filesInfoRepository.save(fileInfo);
-        // возвращаем клиенту имя файла
-        return fileInfo.getStorageName();
+        return "File load to server";
     }
 
     @Override

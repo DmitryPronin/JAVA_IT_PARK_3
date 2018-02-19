@@ -18,6 +18,8 @@ public class RegistrationForm {
     private String mobilephone;
     private String birthDate;
     private String gender;
+    private String avatarurl;
+    private String role;
 
 
 }

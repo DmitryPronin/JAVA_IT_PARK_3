@@ -10,13 +10,15 @@ import ru.itpark.probro.models.enums.Status;
 import ru.itpark.probro.repositories.ScheduleRepository;
 import ru.itpark.probro.repositories.UserRepository;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
+
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
-
 
 
     @Autowired
@@ -28,13 +30,24 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private UserRepository userRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+
+
 
     @Override
-    public List<Schedules> getScheduleByData(LocalDateTime date) {
+    public List<Schedules> getScheduleByData(LocalDate date) {
         System.out.println(date);
-        List<Schedules> schedules = scheduleRepository.findAllByDateTimeOrderByMaster(date);
+        Query query = entityManager.createNativeQuery( "SELECT * FROM schedules s WHERE\n" +
+                        "  cast(date_time as date) = ? ORDER BY (s.master_id, date_time);",
+                Schedules.class);
+        Date date2 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        query.setParameter(1, date2, TemporalType.DATE);
+        List<Schedules> schedule = query.getResultList();
 
-        return schedules;
+        return schedule;
     }
 
     @Override
@@ -43,10 +56,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         String str = form.getTime_id();
         String[] parts = str.split(" ", 2);
         String time = parts[0];
-        Long master_id  = Long.parseLong(parts[1]);
-        User master= userRepository.findOne(master_id);
+        Long master_id = Long.parseLong(parts[1]);
+        User master = userRepository.findOne(master_id);
 
-        String string = form.getDate()+"T"+time+":00.000";
+        String string = form.getDate() + "T" + time + ":00.000";
         System.out.println(string);
         System.out.println(LocalDateTime.now());
         LocalDateTime dateTime = LocalDateTime.parse(string);
@@ -62,9 +75,23 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .build();
         scheduleRepository.save(schedule);
         return schedule;
+    }
 
+    @Override
+    public Schedules updateSchedule(Authentication authentication, ScheduleForm form) {
+        String str = form.getTime_id();
+        String[] parts = str.split(" ", 3);
+        String dateTimeString = parts[0];
+        Long master_id = Long.parseLong(parts[1]);
+        Long schedule_id = Long.parseLong(parts[2]);
+        User master = userRepository.findOne(master_id);
+        User user = authenticationService.getUserByAuthentication(authentication);
 
-
-
+        Schedules schedule = scheduleRepository.findOne(schedule_id);
+        schedule.setStatus(Status.BUSY);
+        schedule.setUser(user);
+        schedule.setCommit(form.getCommit());
+        scheduleRepository.save(schedule);
+        return schedule;
     }
 }

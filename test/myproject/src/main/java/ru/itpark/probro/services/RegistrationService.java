@@ -5,6 +5,8 @@ import ru.itpark.probro.models.User;
 
 public interface RegistrationService {
     User registration(RegistrationForm form);
+    User update(RegistrationForm form);
+
 
     boolean confirm(String confirmString);
 }

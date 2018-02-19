@@ -17,14 +17,10 @@ public class FilesController {
 
     @PostMapping(value = "/files")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
-    @ResponseBody // нужен, потому что мы возвращаем
-    // не имя view, а название сохраненного файла
-    // чтобы ViewResolver не пытался найти ftl
-    // с таким названием
-    // принимаем file как Multipart
+    @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile multipartFile,
                                    Authentication authentication) {
-        // отправляем логику сохранения на слой сервисов
+
         return filesService.save(authentication, multipartFile);
     }
 

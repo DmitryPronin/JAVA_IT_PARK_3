@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itpark.probro.forms.RegistrationForm;
-import ru.itpark.probro.models.enums.Gender;
 import ru.itpark.probro.models.enums.Role;
 import ru.itpark.probro.models.enums.State;
 import ru.itpark.probro.models.User;
@@ -44,12 +43,13 @@ public class RegistrationServiceImpl implements RegistrationService {
         LocalDate birthDate = LocalDate.parse(form.getBirthDate());
         System.out.println(birthDate);
         System.out.println(form.getGender());
-        String confirmString = UUID.randomUUID().toString().replace("-","");
+        String confirmString = UUID.randomUUID().toString().replace("-", "");
         String avatarurl;
-        if (form.getGender().equals("Male")){
-            avatarurl = "/pic/useravatar.jpg";
-        }else{
-            avatarurl = "/pic/useravatar2.jpg";
+        Role role = Role.valueOf(form.getRole());
+        if (form.getGender().equals("Male")) {
+            avatarurl = "/pic/useravatar.png";
+        } else {
+            avatarurl = "/pic/useravatar2.png";
         }
         User newUser = User.builder()
                 .name(form.getName())
@@ -60,7 +60,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .surname(form.getSurname())
                 .mobilephone(form.getMobilephone())
                 .birthDate(birthDate)
-                .role(Role.USER)
+                .role(role)
                 .avatarUrl(avatarurl)
                 .gender(form.getGender())
                 .hashPassword(hashPassword)
@@ -69,26 +69,28 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         usersRepository.save(newUser);
         String text = "<a href=\"localhost/confirm/" + newUser.getConfirmCode() + "\">Follow link</a>";
-
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setContent(text, "text/html");
-        MimeMessageHelper messageHelper = new MimeMessageHelper(message,true);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
         messageHelper.setTo(newUser.getEmail());
         messageHelper.setSubject("Подтверждение регистрации");
         messageHelper.setText(text, true);
         javaMailSender.send(message);
-
         return newUser;
 
+    }
 
+    @Override
+    public User update(RegistrationForm form) {
+        return null;
     }
 
     @Override
     public boolean confirm(String confirmString) {
         Optional<User> userOptional = usersRepository.findByConfirmCode(confirmString);
-        if (userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (LocalDateTime.now().isAfter(user.getExpiredDate())){
+            if (LocalDateTime.now().isAfter(user.getExpiredDate())) {
                 return false;
             }
 

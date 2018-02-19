@@ -24,8 +24,6 @@ public class UsersDetailsServiceImpl implements UserDetailsService {
       User user = userOptional.get();
       return new UserDetailsImpl(user);
     } else throw new IllegalArgumentException("User not found by email");
-//        return new UserDetailsImpl(usersRepository
-//                .findByEmail(email)
-//                .orElseThrow(IllegalArgumentException::new));
+
     }
 }

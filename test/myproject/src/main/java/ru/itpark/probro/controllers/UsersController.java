@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.itpark.probro.forms.NamesForm;
+import ru.itpark.probro.forms.UpdateForm;
 import ru.itpark.probro.models.User;
 import ru.itpark.probro.services.AuthenticationService;
 import ru.itpark.probro.services.UsersService;
@@ -31,28 +32,22 @@ public class UsersController {
         return "profile";
     }
 
-    @GetMapping(value = "/users")
-    public String getUsers(@ModelAttribute("model")ModelMap model,
-                           @RequestParam("order_by") String orderBy) {
-        List<User> users = service.getUsers(orderBy);
-        model.addAttribute("users", users);
-        return "users_page";
-    }
-
-    @GetMapping("/users/{user-id}")
-    public String getUserPage(@ModelAttribute("model") ModelMap model,
-                              @PathVariable("user-id") Long userId) {
-        User user = service.getUser(userId);
+    @GetMapping(value = "/profile_edit")
+    public String getEditPage(
+            @ModelAttribute("model") ModelMap model,
+            Authentication authentication){
+        User user = authenticationService.getUserByAuthentication(authentication);
         model.addAttribute("user", user);
-        return "user_page";
+        return "profile_edit";
     }
 
-    @PostMapping("/users/{user-id}")
-    @ResponseBody
-    public ResponseEntity<Object> updateUser(@PathVariable("user-id") Long userId,
-                                             NamesForm form) {
-        service.update(userId, form);
-        return ResponseEntity.accepted().build();
+    @PostMapping(value = "/profile_edit")
+    public String updateUser(@ModelAttribute UpdateForm form,
+                             @ModelAttribute("model") ModelMap model,
+                             Authentication authentication){
+      User user = service.update(authenticationService.getUserByAuthentication(authentication).getId(), form);
+      model.addAttribute("user", user);
+      return "profile";
     }
 
 }

@@ -1,9 +1,6 @@
 <#ftl encoding='UTF-8'>
 <#import 'spring.ftl' as spring>
 <@spring.bind "model"/>
-<#ftl encoding='UTF-8'>
-<#import 'spring.ftl' as spring>
-<@spring.bind "model"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -37,16 +34,19 @@
 </div>
 <br/><br/>
 <div class="container">
-<#if model.result == true>
-    <h1 style="color: #0f0f0f">Вы успешно подтвердили почту</h1>
-    <h1 style="color: #0f0f0f">перейдите по ссылке для входа на сайт</h1> <a href="../login.ftl">Enter</a>
-<#else>
-    <h1 style="color: #0f0f0f">Ссылка не верна, либо истекло время жизни</h1>
-</#if>
+
+
+    <div class="row">
+        <h2 style="color: #0f0f0f">Congratulations, ${model.user.name}. You signed up for an appointment with a doctor ${model.master.name} ${model.master.surname} on ${model.dayofweek} ${model.month} ${model.day} ${model.year} at ${model.time}.
+        <h3 style="color: #0f0f0f">Change or cancel your visit you can <a href="/profile">here</a> or visit order's history in your acount</h3>
+    </div>
+
 </div>
+
+
 <footer class="container-fluid text-center" style=" position: relative; top: 100%;">
     <p>
-        Supertext
+        SUpertext
     </p>
 </footer>
 

@@ -24,7 +24,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/profile">Profile</a></li>
+                <li><a href="../registration_page.ftl">Registration</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Examples</a></li>
                 <li><a href="#">F.A.Q.</a></li>
@@ -37,22 +37,64 @@
     <div class="row">
         <div class='col-sm-6'>
             <div class="form-group">
-                <form method="get" name="scheduleForm" action="/schedule">
+                <form method="get" name="scheduleForm" action="/schedules">
                     <input style="color: #000 ;" value="${model.today}" type="date" name="date" class="datePicker"/>
                     <input class="btn btn-info" value="Edit Data" type="submit"/>
                 </form>
             </div>
         </div>
-
     </div>
 
     <div class="row">
-    <#include 'schedule/table.ftl'/>
+        <!--TABLE============================================================================-->
+
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Specialist</th>
+                <th class="text-center" colspan="6">${model.today}</th>
+            </tr>
+            </thead>
+        <#list model.users as user>
+            <tr>
+                <tbody>
+                <form method="post" name="saveschedule" action="/schedules">
+                    <td>${user.name}  ${user.surname}</td>
+                    <#list  user.schedules as schedules>
+
+                        <#if schedules.status=='BUSY'>
+                            <th>
+                                <button disabled class="btn btn-danger" value="${schedules.dateTime} ${schedules.master.id}" name="time_id"
+                                        type="submit">${schedules.dateTime}</button>
+                            </th>
+
+                        <#else >
+                            <th>
+                                <button class="btn btn-success" value="${schedules.dateTime} ${schedules.master.id} ${schedules.id}"  name="time_id"
+                                        type="submit">${schedules.dateTime}</button>
+                            </th>
+
+                        </#if>
+
+                    </#list>
+                    <input type="hidden" style="color: #000 ;" value="${model.today}" type="date" name="date" class="datePicker"/>
+
+
+
+                </form>
+                </tbody>
+            </tr>
+
+        </#list>
+        </table>
+
+
+
+        <!--TABLE============================================================================-->
     </div>
 
 </div>
-
-
 
 
 <footer class="container-fluid text-center" style=" position: relative; top: 100%;">
